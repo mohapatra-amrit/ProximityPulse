@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+   .ml7 {
+  position: relative;
+  font-weight: 900;
+  font-size: 3.7em;
+}
+.ml7 .text-wrapper {
+  position: relative;
+  display: inline-block;
+  padding-top: 0.2em;
+  padding-right: 0.05em;
+  padding-bottom: 0.1em;
+  overflow: hidden;
+}
+.ml7 .letter {
+  transform-origin: 0 100%;
+  display: inline-block;
+  line-height: 1em;
+}
+.ml6 {
+  position: relative;
+  font-weight: 900;
+  font-size: 3.3em;
+}
+
+.ml6 .text-wrapper {
+  position: relative;
+  display: inline-block;
+  padding-top: 0.2em;
+  padding-right: 0.05em;
+  padding-bottom: 0.1em;
+  overflow: hidden;
+}
+
+.ml6 .letter {
+  display: inline-block;
+  line-height: 1em;
+}
+  </style>
+  
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    
+  </head>
+    <title>Algo Assignment</title>
+</head>
+<style>
+    #mapp
+    {  
+        
+        width: 100%;
+        height:600px;
+
+    }
+    
+</style>
+<body style="background-color:#ADD8E6">
+  <h1 class="ml7 text-center">
+    <span class="text-wrapper">
+      <span class="letters">Restaurent Management- Google Map key removed intentionally run the front end</span>
+    </span>
+  </h1>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+
+  
+<script async
+    src="https://maps.googleapis.com/maps/api/js?key=">
+</script>
+
+
+
+
+<script>
+  // Wrap every letter in a span
+// Wrap every letter in a span
+var textWrapper = document.querySelector('.ml7 .letters');
+textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+anime.timeline({loop: true})
+.add({
+  targets: '.ml7 .letter',
+  translateY: ["1.1em", 0],
+  translateX: ["0.55em", 0],
+  translateZ: 0,
+  rotateZ: [180, 0],
+  duration: 750,
+  easing: "easeOutExpo",
+  delay: (el, i) => 50 * i
+}).add({
+  targets: '.ml7',
+  opacity: 0,
+  duration: 1000,
+  easing: "easeOutExpo",
+  delay: 1000
+});
+
+// Wrap every letter in a span
+var textWrapper = document.querySelector('.ml6 .letters');
+textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+anime.timeline({loop: true})
+.add({
+  targets: '.ml6 .letter',
+  translateY: ["1.1em", 0],
+  translateZ: 0,
+  duration: 750,
+  delay: (el, i) => 50 * i
+}).add({
+  targets: '.ml6',
+  opacity: 0,
+  duration: 1000,
+  easing: "easeOutExpo",
+  delay: 1000
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+  <div id="mapp"></div>
+  
+<script>
+  var point=[]
+  var locationArr
+  function initMap()
+  {
+      
+     var options={
+      zoom:6,
+      center:{lat:39.3601,lng:-82.0589}
+     } 
+     var map = new google.maps.Map(document.getElementById('mapp'), options);
+     /*
+     locationArr=[[42.4668,-70.9495],[41.179,-79.9495],[40.22,-80.6],[39.9,-81.0],[38,-82],[38.9,-82.9],[36,-83],[37,-81.8,[37.6,-81.5]]]
+     for (var i = 0; i < locationArr.length; i++) {
+      var myCoords = new google.maps.LatLng(locationArr[i][0], locationArr[i][1]);
+      var mapOptions = {
+        center: myCoords,
+        zoom: 14
+      };
+      
+
+      var marker = new google.maps.Marker({
+        position: myCoords,
+        map: map
+      });
+    }
+    */
+  }
+  function calcCrow(lat1, lon1, lat2, lon2) 
+  {
+    // var R = 6371; // km
+    // var dLat = toRad(lat2-lat1);
+    // var dLon = toRad(lon2-lon1);
+    // var lat1 = toRad(lat1);
+    // var lat2 = toRad(lat2);
+
+    // var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+    //   Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+    // var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    // var d = R * c;
+
+    
+var R = 6371; // Radius of the earth in km
+var dLat = deg2rad(lat2-lat1);  // deg2rad below
+var dLon = deg2rad(lon2-lon1); 
+var a = 
+  Math.sin(dLat/2) * Math.sin(dLat/2) +
+  Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+  Math.sin(dLon/2) * Math.sin(dLon/2)
+  ; 
+var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+var d = R * c; // Distance in km
+return d;
+}
+
+function deg2rad(deg) {
+return deg * (Math.PI/180)
+}
+
+  
+
+  // Converts numeric degrees to radians
+  function toRad(Value) 
+  {
+      return Value * Math.PI / 180;
+  }
+  
+  function newmap(point)
+  {
+      var options={
+      zoom:6,
+      center:{lat:39.3601,lng:-82.0589}
+     } 
+     var map = new google.maps.Map(document.getElementById('mapp'), options);
+
+     
+     for (var i = 0; i < locationArr.length; i++) {
+      
+     if(i+1==point[0] || point[1]==i+1){ 
+      var myCoords = new google.maps.LatLng(locationArr[i][0], locationArr[i][1]);
+      var mapOptions = {
+        center: myCoords,
+        zoom: 14
+      };
+      
+
+      var marker = new google.maps.Marker({
+        position: myCoords,
+        map: map
+      });
+    }
+  }
+  new google.maps.Polyline({
+    path :[{lat:locationArr[point[0]-1][0],lng:locationArr[point[0]-1][1]},{lat:locationArr[point[1]-1][0],lng:locationArr[point[1]-1][1]}],
+    geodesic : true,
+    strokeColor : '#FF0000',
+    strokeOpacity : 1,
+    strokeWeight : 4,
+    map : map
+  });
+
+  }
+  
+  function getanswer()
+  {
+      var min=99999
+    
+    for(var i=0;i<locationArr.length;i++)
+      for(var j=i+1;j<locationArr.length;j++)
+      {
+          var d=calcCrow(locationArr[i][0],locationArr[i][1],locationArr[j][0],locationArr[j][1])
+              if(d<min)
+              {
+                  min=d
+                  point=[i+1,j+1]
+              }
+
+      }
+     
+      document.getElementById("neeraj").innerHTML="Order "+point[0]+" and "+" Order "+point[1]+" distance is "+ min.toFixed(2)+"km";
+      
+      newmap(point)
+
+      
+  }
+  function randompoints()
+  {
+ 
+      var options={
+      zoom:6,
+      center:{lat:43.3601,lng:-80.0589}
+     } 
+     var map = new google.maps.Map(document.getElementById('mapp'), options);
+      locationArr = new Array(20).fill(0).map(() => new Array(4).fill(2));
+
+     max=45
+     min=39
+    
+     for(var i=0;i<20;i++)
+     locationArr[i][0]= (Math.random() * (max - min + 1)) + min;
+     
+     max=-75
+     min=-85
+
+     for(var i=0;i<20;i++)
+     locationArr[i][1]=(Math.random() * (max - min + 1)) + min;
+
+    
+
+     for (var i = 0; i < locationArr.length; i++) {
+      
+ 
+      var myCoords = new google.maps.LatLng(locationArr[i][0], locationArr[i][1]);
+      var mapOptions = {
+        center: myCoords,
+        zoom: 14
+      };
+      
+
+      var marker = new google.maps.Marker({
+        position: myCoords,
+        map: map
+      });
+    }
+    
+      
+  }
+  
+</script>
+<p id="neeraj" class="text-center mt-4" style="font-weight: bolder;"></p>
+<div class="d-flex justify-content-center"><button class="btn btn-primary" onclick="getanswer()">Min Distance</button></div>
+<div class="d-flex justify-content-center"><button class="btn btn-primary mt-4" onclick="randompoints()">Current Orders</button></div>
+</html>
